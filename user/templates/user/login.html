@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}صفحه ورود{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <button><a href="{% url 'logout'  %}">logout</a></button>
+    {% else %}
+    <form action="/profile/login/" , method="post">
+            {% csrf_token %}
+            <label>Email: </label><input type="email" name="email"><br><br>
+            <label>password: </label><input type="password" name="password"><br><br>
+            <input type="submit">
+    <a href="{% url 'signup' %}">Wanna Register?</a>
+        </form>
+{#    <form action="/profile/login/"  method="post">#}
+{#    {% csrf_token %}#}
+{#        {{ form.as_table }}#}
+{#        <input type="submit">#}
+{#    </form>#}
+{% endif %}
+{% endblock content %}

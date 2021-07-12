@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if  profile_object.image %}
+<img src="{{ profile_object.image.url }}"  alt='Ax Karbar' width="100" height="100" >
+{% else %}
+    <img src="" alt='Ax Karbar' width="100" height="100" >
+
+{% endif %}
+<ul>
+    <li>email: {{ user.email }}</li>
+    <li>phone: {{ profile_object.phone }}</li>
+    <ul>
+        <li><h1>Addresses:</h1>
+        </li>
+        {% for address in profile_object.address.all %}
+        <li>{{ address.city }}</li>
+        {% endfor %}
+    </ul>
+</ul>
+
+</body>
+</html>
