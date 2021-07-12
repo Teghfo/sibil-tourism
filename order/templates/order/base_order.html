@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}
+صفحه سبد خرید
+{% endblock %}
+
+{% block content %}
+
+            {% comment %} <form action="{% url 'add_cart' food_id=item.food.id%}?next={{request.path}}" , method='post'>
+                {% endcomment %}
+{#                <form action="{% url 'add_cart' food_id=item.food.id%}?next={{request.path}}" id="increment_form">#}
+{#                    {% csrf_token %}#}
+{#                    <input type="hidden" class="inputid" value={{item.food.id}}>#}
+{#                    <input type="submit" class="submitbutton btn btn-outline-dark" value="+">#}
+{#                </form>#}
+{#                <form action="{% url 'decrement_cart' food_id=item.food.id%}?next={{request.path}}" , method='post'>#}
+{#                    {% csrf_token %}#}
+{#                    <input type="submit" class="btn btn-outline-dark" value="-">#}
+{#                </form>#}
+{#                <form action="{% url 'delete_from_cart' food_id=item.food.id%}?next={{request.path}}" , method='post'>#}
+{#                    {% csrf_token %}#}
+{#                    <input type="submit" class="btn btn-outline-dark" value="حذف">#}
+{#                </form>#}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>city</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left mr-2" href="#"> <img class="media-object" src="{{ item.product.img_one.url }}" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="{% url 'hand-product-detail' item.product.slug %}">{{item.product.name}}</a></h4>
+                                <h5 class="media-heading"> by <a href="#">{{ item.product.supplier.nickname }}</a></h5>
+                                <span>Status: </span><span class="text-success"><strong>{{ item.get_status_display }}</strong></span>
+                            </div>
+                        </div></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ item.product.city }}</strong></td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <input type="email" class="form-control" id="exampleInputEmail1" value="{{ item.qty }}">
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ item.product.price }}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ item.product_sum_price }}</strong></td>
+                        <td class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span> Remove
+                        </button></td>
+                    </tr>
+                    {% endfor %}
+
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Subtotal</h5></td>
+                        <td class="text-right"><h5><strong>{{ request.cart.cart_summation }}</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Estimated shipping</h5></td>
+                        <td class="text-right"><h5><strong>{{ shipping }}</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3><strong>{{ total }}</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td colspan="2">
+                            <a href="{% url 'hand-product-list' %}">
+                              <button type="button" class="btn btn-secondary">
+                              Continue Shopping<span class="glyphicon glyphicon-play"></span>
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                        <button type="button" class="btn btn-success">
+                           Checkout <span class="glyphicon glyphicon-play"></span>
+                        </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
