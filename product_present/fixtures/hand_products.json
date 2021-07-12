@@ -1,0 +1,63 @@
+[{
+        "model": "product_present.handproductcat",
+        "pk": 1,
+        "fields": {
+            "name": "خوراکی",
+            "cat": null
+        }
+    }, {
+        "model": "product_present.handproductcity",
+        "pk": 1,
+        "fields": {
+            "city": "کرمانشاه"
+        }
+    }, {
+        "model": "product_present.handproduct",
+        "pk": 1,
+        "fields": {
+            "name": "نان برنجی",
+            "description": "نان برنجی یکی از شیرینی های معروف و بسیار پرطرفدار شهر کرمانشاه است که به عنوان سوغاتی این شهر هم شناخته می شود. نان برنجی در گذشته یکی از شیرینی های مناسبتی برای عید نوروز محسوب می شده است.",
+            "category": 1,
+            "city": 1,
+            "supplier": 1,
+            "price": 15000,
+            "img_one": "hand_product/نان_برنجی_9PWuGV8.jpg",
+            "img_two": "hand_product/l4_ll7dygf.jpg",
+            "img_three": "",
+            "video_description": "",
+            "slug": "نان-برنجی",
+            "active": true,
+            "discount_rate": 12
+        }
+    },
+    {
+        "model": "user.handproductsuplier",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "nickname": "emad",
+            "state": "teh",
+            "city": "teh",
+            "street": "azadi",
+            "alley": "azadi",
+            "number": "12"
+        }
+    }, {
+        "model": "user.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$8SLWdh0TD1By$t0BCFc6jm8rz3CpRecxKcUWIY7w0Ma8PO/ZQFTvuD78=",
+            "last_login": "2021-05-05T06:39:23.648Z",
+            "is_superuser": false,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-04-20T10:01:44.768Z",
+            "email": "mehran@test.com",
+            "phone": "912333333",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

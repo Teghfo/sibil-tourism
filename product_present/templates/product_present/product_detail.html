@@ -1,0 +1,33 @@
+{% extends "product_present/base_product_site.html" %}
+{% load product_tags %}
+
+{% block handproduct %}
+    <h1>name: {{ hand_product.name }}</h1>
+    <img src="{{ hand_product.img_one.url }}" width="250" height="150">
+    {% if hand_product.img_two %}
+        <img src="{{ hand_product.img_two.url }}" width="250" height="150">
+    {% endif %}
+    {% if hand_product.img_three %}
+        <img src="{{ hand_product.img_three.url }}" width="250" height="150">
+    {% endif %}
+    <p>discription: {{ hand_product.description }}</p>
+    <p>city: {{ hand_product.city.city }}</p>
+    <p>suplier: {{ hand_product.supplier.nickname }}</p>
+    <p>price: {{ hand_product.price |comma_seperator }}</p>
+    <p>rate: {% product_rate hand_product.id %}</p>
+    <h3>comments: </h3>
+    <form action="">
+        {% csrf_token %}
+    </form>
+    <ul>
+    {% for comment in hand_product.comment.all %}
+        <li>user: {{ comment.user.email }} --> text: {{ comment.text }}</li>
+        {% if request.user == comment.user %}
+            <button><a href="{% url 'comment-change' hand_product.id %}" >Edit commnet</a></button>
+            <button onclick="makeDeleteComment({{ hand_product.id }})">Delete commnet</button>
+{#            <button><a href="{% url 'comment-delete' comment.id %}" >Delete commnet</a></button>#}
+        {% endif %}
+    {% endfor %}
+    </ul>
+    <button><a href="{% url 'comment-change' hand_product.id %}" >add commnet</a></button>
+{% endblock handproduct %}

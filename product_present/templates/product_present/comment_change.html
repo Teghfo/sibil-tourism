@@ -1,0 +1,24 @@
+<html>
+
+<body>
+    <form action="{% url 'comment-change' id %}" method="post">
+        {% csrf_token %}
+{#        {{ form }}#}
+            {% for elm in form %}
+                <div class="fieldWrapper">
+                {% if elm.errors %}
+                    <p style="color:red;"> {% for error in elm.errors %}
+                    {{ error }} - {{ error. }}
+                    {% endfor %}
+                    </p>
+                {% endif %}
+                    <label for="{{ elm.id_for_label }}">{{ elm.label }}:</label>
+                    {{ elm }}
+                </div>
+            {% endfor %}
+
+        <input type="submit" value="send">
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+{% extends "product_present/base_product_site.html" %}
+{% load product_tags %}
+{% load cache %}
+
+
+{% block Masthead %}
+    <!-- Masthead-->
+    <header class="masthead-souvenirs text-white text-center">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row ">
+                <div class="col-xl-9 mx-auto"><h1 class="mb-5" style="color: black">Souvenirs!</h1></div>
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <form method="get">
+            <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                            <label for="form-control"  style="color: black;font-size: 2rem">serch by name: </label>
+                             <input type="text" class="form-control mr-2" name="q" placeholder="Search">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="form-control" style="color: black;font-size: 2rem">min price: </label><input type="text" class="form-control mr-2" name="min_price" placeholder="مثلا 20000">
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                         <label for="form-control" style="color: black;font-size: 2rem">max price: </label><input type="text" class="form-control mr-2" name="max_price" placeholder="مثلا 30000">
+                    </div>
+                                    <div class="col-md-3 mb-3">
+
+                        <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">filter</button>
+                    </div>
+                                    </div>
+
+        </div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block handproduct %}
+    {% cache 500 hand_products_list page_obj.number%}
+
+    <div class="container">
+        <h3 id="products" class="h3">Products... </h3>
+        <div class="row">
+            {% for product in hand_products %}
+            <div class="col-md-2 col-sm-4 mb-2">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a href="{% url 'hand-product-detail' product.slug %}   ">
+                            <img class="pic-1" src="{{ product.img_one.url }}">
+                            <img class="pic-2" src="{{ product.img_one.url }}">
+                        </a>
+                        <ul class="social">
+                            <li><a href="" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                            <li><a href="" data-tip="Add to Wishlist"><i class="fa fa-shopping-bag"></i></a></li>
+                            <li><a href="{% url 'add_cart' product.id %}" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+                        </ul>
+                        {% if product.discount_rate %}
+                        <span class="product-new-label">Sale</span>
+                        <span class="product-discount-label">{{ product.discount_rate }}%</span>
+                        {% endif %}
+                    </div>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star disable"></li>
+                        <li style="color: red">{% product_rate product.id %}</li>
+                    </ul>
+                    <div class="product-content">
+                        <h3 class="title"><a href="{% url 'hand-product-detail' product.slug %}">{{ product.name }}</a></h3>
+                        <div class="price">{{ product.price_after_discount }}
+                            <span>{{ product.price }}</span>
+                        </div>
+                        <a class="add-to-cart" href="{% url 'add_cart' product.id %}">+ Add To Cart</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <br><br>
+{#    <div class="text-center pagination">#}
+{#            <ul>#}
+{#                {% if page_obj.has_previous %}#}
+{#                    <li><a href="?page=1">&laquo; first</a></li>#}
+{#                    <li><a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>#}
+{#                {% endif %}#}
+{##}
+{#                <li>#}
+{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}#}
+{#                </li>#}
+{##}
+{#                {% if page_obj.has_next %}#}
+{#                    <li><a href="?page={{ page_obj.next_page_number }}">next</a></li>#}
+{#                    <li><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>#}
+{#                {% endif %}#}
+{#            </ul>#}
+{##}
+            {#    <form action="{% url 'hand-product-list' %}" method="get">#}
+            {#        {% csrf_token %}#}
+            {#        <input type="text" name="paginate_by">#}
+            {#        <input type="submit" value="send">#}
+            {#    </form>#}
+{#        <form action="{% url 'hand-product-list' %}" method="get">#}
+{#            <select id="pagination" name="paginate_by" onchange="this.form.submit();">#}
+{#                <option value="10">10 item in page</option>#}
+{#                <option value="20">20 item in page</option>#}
+{#                <option value="30">30 item in page</option>#}
+{#            </select>#}
+{#        </form>#}
+{#    </div>#}
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a title="first page" class="page-link" href="?page=1#products" tabindex="-1"><<</a>
+        </li>
+        <li class="page-item">
+          <a title="previus page" class="page-link" href="?page={{ page_obj.previous_page_number }}#products" tabindex="-1">{{ page_obj.previous_page_number }}</a>
+        </li>
+    {% endif %}
+
+      <li class="page-item active"><a title="current page" class="page-link" href="#products">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+      {% if page_obj.has_next %}
+        <li class="page-item"><a title="next page" class="page-link" href="?page={{ page_obj.next_page_number }}#products">{{ page_obj.next_page_number }}</a></li>
+        <li class="page-item">
+          <a class="page-link" title="last page" href="?page={{ page_obj.paginator.num_pages }}#products" tabindex="-1">>></a>
+        </li>
+      {% endif %}
+
+  </ul>
+</nav>
+    {% endcache %}
+{% endblock handproduct %}
+
