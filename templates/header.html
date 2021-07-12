@@ -1,0 +1,61 @@
+{% load cache %}
+
+<!-- Navigation-->
+{#<nav class="navbar navbar-dark bg-dark static-top">#}
+{#    <div class="container">#}
+{#        <a class="navbar-brand" href="{% url 'home' %}">Sibil Tourism</a>#}
+{#        {% if user.is_authenticated %}#}
+{#             <a class="btn btn-primary" href="#!">profile: {{ user.email }}</a>#}
+{#             <a class="btn btn-primary" href="{% url 'logout' %}">Sign Out</a>#}
+{#        {% else %}#}
+{#            <a class="btn btn-primary" href="#!">Sign In/Register</a>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#</nav>#}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto ml-5">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'hand-product-list' %}">Souvenirs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="host-api/host/">Hostel</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Tourism</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Blog</a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="{% url 'home' %}">Sibil Tourism</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto mr-5">
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="btn btn-primary mr-2" href="#!">profile: {{ user.email }}</a>
+            </li>
+             <li class="nav-item">
+                <a class="btn btn-primary mr-2" href="{% url 'show_cart' %}">Cart: {#  {% cache 60 cart_item_length request.user.email %}#} {{ request.cart.cart_items_cardinality }} {#  {% endcache %} #}<i class="fa fa-shopping-cart"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-primary" href="{% url 'logout_view' %}">Sign Out</a>
+            </li>
+
+
+        {% else %}
+            <li class="nav-item">
+                <a class="btn btn-primary" href="{% url 'user-view' %}">Sign In/Register</a>
+            </li>
+{% endif %}
+        </ul>
+    </div>
+</nav>
+

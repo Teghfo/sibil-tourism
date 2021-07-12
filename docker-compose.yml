@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+  django_web:
+    build: .
+    command: >
+      ash -c "python manage.py migrate && python manage.py loaddata hand_products && gunicorn sibilTourism.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static:/app/static
+      - media:/app/media
+      - .:/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres_db
+  postgres_db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=ashkan
+      - POSTGRES_PASSWORD=mapsa
+      - POSTGRES_DB=tourism
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/app/static
+      - media:/app/media
+    ports:
+      - 8082:80
+    depends_on:
+      - django_web
+  redis:
+    image: redis:alpine
+  celery:
+    restart: always
+    build:
+      context: .
+#      dockerfile: dokckerfile-name-alternative
+#      args:
+#        name : ashkan
+    command: >
+      ash -c "touch celery.log && touch celery_beat.log && celery -A sibilTourism worker -l info &> celery.log & celery -A sibilTourism beat -l info -S django &> celery_beat.log"
+    volumes:
+      - .:/app
+    depends_on:
+      - django_web
+      - redis
+volumes:
+  postgres_data:
+  static:
+  media:
